@@ -27,11 +27,11 @@ var svg = d3.select("#my_dataviz")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 // Create dummy data
-var data = {a: 9, b: 20, c:30, d:8, e:12, f:3, g:7, h:14}
+var data = {exceeds: 10.6, meets: 26.1, approaching :35.8, partial:27.6}
 
 // set the color scale
 var color = d3.scaleOrdinal()
-  .domain(["a", "b", "c", "d", "e", "f", "g", "h"])
+  .domain(["% Exceeds", "% Meets", "% Approaching", "% Partially Meets"])
   .range(d3.schemeDark2);
 
 // Compute the position of each group on the pie:
