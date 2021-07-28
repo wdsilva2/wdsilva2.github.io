@@ -1,8 +1,8 @@
-SubgroupName,% Exceeds,% Meets,% Approaching,% Partially Meets
-White,14.60,33.20,34.10,18.10
-Black,2.10,11.80,36.50,49.60
-Hispanic,3.70,18.80,40.90,36.70
-Asian,28.60,34.10,25.50,11.70
-Am. Indian,3.70,19.10,46.60,30.60
-Pacific Islander,6.00,30.70,38.70,24.70
-Two or More,14.80,27.20,34.30,23.80
+SubgroupName,% Partially Meets,% Approaching,% Meets,% Exceeds
+White,18.10,34.10,33.20,14.60
+Black,49.60,36.50,11.80,2.10
+Hispanic,36.70,40.90,18.80,3.70
+Asian,11.70,25.50,34.10,28.60
+Am. Indian,30.60,46.60,19.10,3.70
+Pacific Islander,24.70,38.70,30.70,6.00
+Two or More,23.80,34.30,27.20,14.80
