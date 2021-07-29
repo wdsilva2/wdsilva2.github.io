@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+
+<!-- Load d3.js & color scale -->
+<script src="https://d3js.org/d3.v4.js"></script> 
+
+
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/1.12.1/d3-annotation.min.js"></script>
+<head>
+<style>
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  align: left;
+  background-color: #f5f5f5;
+}
+
+
+
+
+</style>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   
+ </head>   
+ 
+ <header>
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Understanding the Variability of SAT Scores of Illinois Public High School Students</a>
+        
+        <!-- 
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            
+            
+          </ul>
+           -->
+        </div>
+      </nav>
+    </header>
+<br><br><br>
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="index.html">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="index.html">1</a></li>
+    <li class="page-item active">
+      <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
+
+<div style="padding: 15px 15px 15px 15px;">
+
+hello world hello world hello world hello world hello world hello world hello 
+world hello world hello world hello world hello world hello world hello world hello world 
+hello world hello world hello world hello world hello world hello world hello world hello world hello 
+world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world
+
+</div>
+
+  
+ <table border="1">
+ <tr>
+ <td><div id="sat_ela_race" style='border:1px;  border-color:black;'></td>
+ <td style="text-align:left; align:left;" align="center"><svg id="sat_ela_legend" height=300 width = 200></svg></td>
+ <td><div id="sat_math_race" style='border:1px;  border-color:black;'></td>
+ </tr>
+  </table>
+ <div id="sat_tooltip_ela" style='border:1px;  border-color:black;'>
+ <div id="sat_tooltip_math" style='border:1px;  border-color:black;'>
+ 
+  
+
+      <div style="text-align:left; padding: 15px 15px 15px 15px; color:grey; font-size: 13px;">
+        
+        Random testing is praised for the following strengths:
+
+It is cheap to use: it does not need to be smart about the program under test.
+It does not have any bias: unlike manual testing, it does not overlook bugs because there is misplaced trust in some code.
+It is quick to find bug candidates: it typically takes a couple of minutes to perform a testing session.
+If software is properly specified: it finds real bugs.
+The following weaknesses have been described :
+
+It only finds basic bugs (f.ex. null pointer dereferencing).
+It is only as precise as the specification and specifications are typically imprecise.
+It compares poorly with other techniques to find bugs (f.ex. static program analysis).
+If different inputs are randomly selected on each test run, this can create problems for continuous integration because the same tests will pass or fail randomly.[6]
+Some argue that it would be better to thoughtfully cover all relevant cases with manually constructed tests in a white-box fashion, than to rely on randomness.[6]
+It may require a very large number of tests for modest levels of confidence in modest failure rates. For example, it will require 459 failure-free tests to have at least 99% confidence that the probability of failure is less than 1/100.[4]
+        
+      </div>
+      
+        
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+<script>
+
+
+var margins = {top: 50, right: 50, bottom: 150, left: 50},
+    width = 700 - margins.left - margins.right,
+    height = 550 - margins.top - margins.bottom;
+
+
+//////////////////////////// Chart1 ////////////////////////////////////////////////////
+
+// append the svg object to the body of the page
+var svg_ela = d3.select("#sat_ela_race")
+  .append("svg")
+    .attr("width", width + margins.left + margins.right)
+    .attr("height", height + margins.top + margins.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margins.left + "," + margins.top + ")");
+
+
+var Tooltip_ela = d3.select("#sat_tooltip_ela")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+.style("background-color", "white")
+.style("padding", "5px")
+
+
+// Three function that change the tooltip when user hover / move / leave a cell
+var mouseover = function(d) {
+	Tooltip_ela
+    .style("opacity", 1)
+  d3.select(this)
+    .style("stroke", "black")
+    .style("opacity", 1)
+}
+var mousemove = function(d,i) {
+	var subgroupName = d3.select(this.parentNode).datum().key;
+    var subgroupValue = d.data[subgroupName];
+    
+    
+    Tooltip_ela
+    //.html(Number.parseFloat((d[1] - d[0])).toFixed(1) + "%" + i)
+     .html(subgroupName + " : " + Number.parseFloat(subgroupValue).toFixed(1) + "%")
+
+    .style("left", (d3.mouse(this)[0]+50) + "px")
+    .style("top", (d3.mouse(this)[1]+270) + "px")
+   console.log(d)
+   console.log(i)
+}
+var mouseleave = function(d,i) {
+	Tooltip_ela
+    .style("opacity", 0)
+  d3.select(this)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+}
+
+// Parse the Data
+d3.csv("https://raw.githubusercontent.com/wdsilva2/wdsilva2.github.io/main/ela_sat_2019.csv", function(data) {
+
+  var subgroups = data.columns.slice(1)
+  var groups = d3.map(data, function(d){return(d.SubgroupName)}).keys()
+  console.log(subgroups)
+
+  var x = d3.scaleBand()
+      .domain(groups)
+      .range([0, width])
+      .padding([0.5]) //the gap between the bars
+  
+  svg_ela.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x).tickSizeOuter(0));
+
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, 100])
+    .range([ height, 0 ]);
+  svg_ela.append("g")
+    .call(d3.axisLeft(y).tickFormat(d => d + "%"));
+
+  var color = d3.scaleOrdinal()
+    .domain(subgroups)
+    .range(["#e5742f","#efb229","#7bab20","#11664d"])
+
+  var stackedData = d3.stack().keys(subgroups)(data)
+
+  
+  svg_ela.append("g")
+    .selectAll("g")
+      .data(stackedData)
+    .enter().append("g")
+      .attr("fill", function(d) { return color(d.key); })
+      .selectAll("rect")
+        .data(function(d) { return d; })
+      .enter().append("rect")
+        .attr("x", function(d) { return x(d.data.SubgroupName); })
+        .attr("y", function(d) { return y(d[1]); })
+        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+        .attr("width",x.bandwidth())
+        .on("mouseover", mouseover)
+         .on("mousemove", mousemove)
+         .on("mouseleave", mouseleave)
+
+})
+
+
+//titles
+svg_ela.append("text")
+     .attr("x", 300)             
+     .attr("y", -20)
+     .attr("text-anchor", "middle")
+ .attr('font-weight','bold')        
+     .style("font-size", "16px") 
+     .style("text-decoration", "underline")  
+     .text("SAT ELA Performance by Demographics");    
+
+
+//annotations
+svg_ela.append('rect')
+.attr('x', 30)
+.attr('y', -5)
+.attr('width', 57)
+.attr('height', 500)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+svg_ela.append('rect')
+.attr('x', 110)
+.attr('y', -5)
+.attr('width', 57)
+.attr('height', 430)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+svg_ela.append('rect')
+.attr('x', 270)
+.attr('y', -5)
+.attr('width', 57)
+.attr('height', 430)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+svg_ela.append('rect')
+.attr('x', 87)
+.attr('y', 425)
+.attr('width', 470)
+.attr('height', 70)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+
+svg_ela.append("text")
+.attr("x", 35)             
+.attr("y", 480)
+.style("font-size", "14px")
+.style("fill", "#234e8d")
+.style("font-weight", "bold")
+.text("Signifinicant differences in ELA proficiency by demographics");
+
+svg_ela.append("text")
+.attr("x", 100)             
+.attr("y", 450)
+.style("font-size", "15px")
+.style("font-weight", "bold")
+.style("fill", "#234e8d")
+.text("% Proficient");
+
+
+
+svg_ela.append("text")
+.attr("x", 35)             
+.attr("y", 400)
+.style("font-size", "15px")
+.style("font-weight", "bold")
+.style("fill", "#234e8d")
+.text("47.8%");
+
+svg_ela.append("text")
+.attr("x", 115)             
+.attr("y", 400)
+.style("font-size", "15px")
+.style("font-weight", "bold")
+.style("fill", "#234e8d")
+.text("13.9%");
+
+svg_ela.append("text")
+.attr("x", 275)             
+.attr("y", 400)
+.style("font-size", "15px")
+.style("font-weight", "bold")
+.style("fill", "#234e8d")
+.text("62.7%");
+
+svg_ela.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 135)
+.attr("y1", 405)
+.attr("x2", 135)
+.attr("y2", 435); 
+
+svg_ela.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 55)
+.attr("y1", 405)
+.attr("x2", 55)
+.attr("y2", 445);
+
+svg_ela.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 54)
+.attr("y1", 445)
+.attr("x2", 95)
+.attr("y2", 445);
+
+svg_ela.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 295)
+.attr("y1", 405)
+.attr("x2", 295)
+.attr("y2", 445);
+
+svg_ela.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 296)
+.attr("y1", 445)
+.attr("x2", 190)
+.attr("y2", 445);
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////// Chart2 ////////////////////////////////////////////////////
+
+// append the svg object to the body of the page
+var svg_math = d3.select("#sat_math_race")
+  .append("svg")
+    .attr("width", width + margins.left + margins.right)
+    .attr("height", height + margins.top + margins.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margins.left + "," + margins.top + ")");
+
+
+var Tooltip_math = d3.select("#sat_tooltip_math")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+.style("background-color", "white")
+.style("padding", "5px")
+
+
+// Three function that change the tooltip when user hover / move / leave a cell
+var mouseover_math = function(d) {
+	Tooltip_math
+    .style("opacity", 1)
+  d3.select(this)
+    .style("stroke", "black")
+    .style("opacity", 1)
+}
+var mousemove_math = function(d,i) {
+	var subgroupName = d3.select(this.parentNode).datum().key;
+    var subgroupValue = d.data[subgroupName];
+    
+    
+    Tooltip_math
+    //.html(Number.parseFloat((d[1] - d[0])).toFixed(1) + "%" + i)
+     .html(subgroupName + " : " + Number.parseFloat(subgroupValue).toFixed(1) + "%")
+
+    .style("left", (d3.mouse(this)[0]+850) + "px")
+    .style("top", (d3.mouse(this)[1]+270) + "px")
+   console.log(d)
+   console.log(i)
+}
+var mouseleave_math = function(d,i) {
+	Tooltip_math
+    .style("opacity", 0)
+  d3.select(this)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+}
+
+// Parse the Data
+d3.csv("https://raw.githubusercontent.com/wdsilva2/wdsilva2.github.io/main/math_sat_2019.csv", function(data) {
+
+  var subgroups = data.columns.slice(1)
+  var groups = d3.map(data, function(d){return(d.SubgroupName)}).keys()
+  console.log(subgroups)
+
+  var x = d3.scaleBand()
+      .domain(groups)
+      .range([0, width])
+      .padding([0.5]) //the gap between the bars
+  
+   svg_math.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x).tickSizeOuter(0));
+
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, 100])
+    .range([ height, 0 ]);
+  svg_math.append("g")
+    .call(d3.axisLeft(y).tickFormat(d => d + "%"));
+
+  var color = d3.scaleOrdinal()
+    .domain(subgroups)
+    .range(["#e5742f","#efb229","#7bab20","#11664d"])
+
+  var stackedData = d3.stack().keys(subgroups)(data)
+
+  
+  svg_math.append("g")
+    .selectAll("g")
+      .data(stackedData)
+    .enter().append("g")
+      .attr("fill", function(d) { return color(d.key); })
+      .selectAll("rect")
+        .data(function(d) { return d; })
+      .enter().append("rect")
+        .attr("x", function(d) { return x(d.data.SubgroupName); })
+        .attr("y", function(d) { return y(d[1]); })
+        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+        .attr("width",x.bandwidth())
+        .on("mouseover", mouseover_math)
+         .on("mousemove", mousemove_math)
+         .on("mouseleave", mouseleave_math)
+
+})
+
+//titles
+//titles
+svg_math.append("text")
+     .attr("x", 300)             
+     .attr("y", -20)
+     .attr("text-anchor", "middle")
+ .attr('font-weight','bold')        
+     .style("font-size", "16px") 
+     .style("text-decoration", "underline")  
+     .text("SAT Math Performance by Demographics");    
+
+
+
+
+//annotations
+svg_math.append('rect')
+.attr('x', 30)
+.attr('y', -5)
+.attr('width', 57)
+.attr('height', 500)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+svg_math.append('rect')
+.attr('x', 110)
+.attr('y', -5)
+.attr('width', 57)
+.attr('height', 430)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+svg_math.append('rect')
+.attr('x', 270)
+.attr('y', -5)
+.attr('width', 57)
+.attr('height', 430)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+svg_math.append('rect')
+.attr('x', 87)
+.attr('y', 425)
+.attr('width', 470)
+.attr('height', 70)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+
+
+svg_math.append("text")
+.attr("x", 35)             
+.attr("y", 480)
+.style("font-size", "14px")
+.style("fill", "#234e8d")
+.style("font-weight", "bold")
+.text("Signifinicant differences in math proficiency by demographics");
+
+svg_math.append("text")
+.attr("x", 100)             
+.attr("y", 450)
+.style("font-size", "15px")
+.style("font-weight", "bold")
+.style("fill", "#234e8d")
+.text("% Proficient");
+
+
+
+svg_math.append("text")
+.attr("x", 35)             
+.attr("y", 400)
+.style("font-size", "15px")
+.style("font-weight", "bold")
+.style("fill", "#234e8d")
+.text("45.0%");
+
+svg_math.append("text")
+.attr("x", 115)             
+.attr("y", 400)
+.style("font-size", "15px")
+.style("font-weight", "bold")
+.style("fill", "#234e8d")
+.text("11.6%");
+
+svg_math.append("text")
+.attr("x", 275)             
+.attr("y", 400)
+.style("font-size", "15px")
+.style("font-weight", "bold")
+.style("fill", "#234e8d")
+.text("69.0%");
+
+svg_math.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 135)
+.attr("y1", 405)
+.attr("x2", 135)
+.attr("y2", 435); 
+
+svg_math.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 55)
+.attr("y1", 405)
+.attr("x2", 55)
+.attr("y2", 445);
+
+svg_math.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 54)
+.attr("y1", 445)
+.attr("x2", 95)
+.attr("y2", 445);
+
+svg_math.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 295)
+.attr("y1", 405)
+.attr("x2", 295)
+.attr("y2", 445);
+
+svg_math.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 296)
+.attr("y1", 445)
+.attr("x2", 190)
+.attr("y2", 445);
+
+
+
+
+////////////////////////////////////// legend ////////////////////////////////////////////////
+
+
+// select the svg area
+var SVG_ela_legend = d3.select("#sat_ela_legend")
+
+// create a list of keys
+var keys = ['% Partially Meets','% Approaching','% Meets','% Exceeds']
+
+// Usually you have a color scale in your chart already
+var color = d3.scaleOrdinal()
+  .domain(keys)
+  .range(["#e5742f","#efb229","#7bab20","#11664d"]);
+
+// Add one dot in the legend for each name.
+var size = 20
+SVG_ela_legend.selectAll("mydots")
+  .data(keys)
+  .enter()
+  .append("rect")
+    .attr("x", 10)
+    .attr("y", function(d,i){ return 100 + i*(size+10)}) // 100 is where the first dot appears. 25 is the distance between dots
+    .attr("width", size)
+    .attr("height", size)
+    .style("fill", function(d){ return color(d)})
+
+// Add one dot in the legend for each name.
+SVG_ela_legend.selectAll("mylabels")
+  .data(keys)
+  .enter()
+  .append("text")
+    .attr("x", 10 + size*1.2)
+    .attr("y", function(d,i){ return 100 + i*(size+10) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+    .style("fill", function(d){ return color(d)})
+    .text(function(d){ return d})
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle")
+</script>
+
+</script>
+
+
+
+
+
+</body>
+</html>

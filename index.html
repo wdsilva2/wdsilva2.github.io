@@ -37,7 +37,7 @@ body {
  <header>
       <!-- Fixed navbar -->
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Visualizing SAT Scores of Illinois Public High Schools</a>
+        <a class="navbar-brand" href="#">Understanding the Variability of SAT Scores of Illinois Public High School Students</a>
         
         <!-- 
         <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -66,11 +66,11 @@ body {
     </li>
     <li class="page-item active"><a class="page-link" href="#">1<span class="sr-only">(current)</span></a></li>
     <li class="page-item">
-      <a class="page-link" href="#">2 </a>
+      <a class="page-link" href="2.html">2 </a>
     </li>
     <li class="page-item"><a class="page-link" href="#">3</a></li>
     <li class="page-item">
-      <a class="page-link" href="#">Next</a>
+      <a class="page-link" href="2.html">Next</a>
     </li>
   </ul>
 </nav>
@@ -134,7 +134,7 @@ var radius = Math.min(width, height) / 2 - margin
 var svg = d3.select("#sat_ela_donut")
   .append("svg")
     .attr("width", width)
-    .attr("height", 400)
+    .attr("height", height)
   .append("g")
     .attr("transform", "translate(" + width * 0.5 + "," + height * 0.35 + ")");
 
@@ -235,12 +235,11 @@ svg.append("text")
         .text("SAT Performance - ELA");    
     
 svg.append('rect')
-.attr('x', 95)
+.attr('x', 90)
 .attr('y', -100)
-.attr('width', 130)
-.attr('height', 120)
-.attr('stroke', 'black')
-.attr('stroke-dasharray', '5,5')
+.attr('width', 190)
+.attr('height', 180)
+.attr('stroke', 'none')
 .attr('fill', '#69a3b2')
 .style('opacity', 0.2);
 
@@ -249,14 +248,16 @@ svg.append("text")
 .attr("x", 95)             
 .attr("y", 40)
 .style("font-size", "14px")
-.style("fill", "#ff0000")
+.style("font-weight","bold")
+.style("fill", "#234e8d")
 .text("Only 36.7% of the students");
 
 svg.append("text")
 .attr("x", 95)             
 .attr("y", 55)
 .style("font-size", "14px")
-.style("fill", "#ff0000")
+.style("fill", "#234e8d")
+.style("font-weight","bold")
 .text("were proficient.");
 
 /////////////////////////////////////////////////////////////////////////////
@@ -347,12 +348,11 @@ svg.append("text")
      .text("SAT Performance - Math");    
  
 svg.append('rect')
-.attr('x', 95)
+.attr('x', 90)
 .attr('y', -100)
-.attr('width', 130)
-.attr('height', 120)
-.attr('stroke', 'black')
-.attr('stroke-dasharray', '5,5')
+.attr('width', 190)
+.attr('height', 180)
+.attr('stroke', 'none')
 .attr('fill', '#69a3b2')
 .style('opacity', 0.2);
 
@@ -361,14 +361,16 @@ svg.append("text")
 .attr("x", 95)             
 .attr("y", 40)
 .style("font-size", "14px")
-.style("fill", "#ff0000")
+.style("font-weight","bold")
+.style("fill", "#234e8d")
 .text("Only 34.8% of the students");
 
 svg.append("text")
 .attr("x", 95)             
 .attr("y", 55)
 .style("font-size", "14px")
-.style("fill", "#ff0000")
+.style("font-weight","bold")
+.style("fill", "#234e8d")
 .text("were proficient.");
 
 
