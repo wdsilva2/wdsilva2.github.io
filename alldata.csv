@@ -1,0 +1,79 @@
+Subject,Year,Group,SubgroupName,% Partially Meets,% Approaching,% Meets,% Exceeds
+Mathematics,2019,Demographics,White,23.00,31.90,33.10,11.90
+Mathematics,2018,Demographics,White,22.60,32.50,32.60,12.20
+Mathematics,2017,Demographics,White,20.90,31.90,36.80,10.40
+Mathematics,2019,Demographics,Black,59.70,28.70,10.50,1.10
+Mathematics,2018,Demographics,Black,59.30,29.60,10.00,1.10
+Mathematics,2017,Demographics,Black,56.30,32.00,10.90,0.80
+Mathematics,2019,Demographics,Hispanic,43.60,34.90,18.50,2.90
+Mathematics,2018,Demographics,Hispanic,44.00,34.80,18.30,2.90
+Mathematics,2017,Demographics,Hispanic,41.10,37.30,19.50,2.10
+Mathematics,2019,Demographics,Asian,10.30,20.70,34.80,34.20
+Mathematics,2018,Demographics,Asian,12.50,20.60,33.70,33.10
+Mathematics,2017,Demographics,Asian,10.70,22.10,38.80,28.30
+Mathematics,2019,Demographics,Am. Indian,44.40,33.10,18.00,4.50
+Mathematics,2018,Demographics,Am. Indian,37.30,34.50,20.50,7.70
+Mathematics,2017,Demographics,Am. Indian,40.90,29.60,24.70,4.80
+Mathematics,2019,Demographics,Pacific Islander,30.70,32.00,29.30,8.00
+Mathematics,2018,Demographics,Pacific Islander,33.50,29.00,25.20,12.30
+Mathematics,2017,Demographics,Pacific Islander,28.70,27.20,33.10,11.00
+Mathematics,2019,Demographics,Two or More,31.00,30.30,26.30,12.30
+Mathematics,2018,Demographics,Two or More,29.60,31.50,26.50,12.40
+Mathematics,2017,Demographics,Two or More,28.10,31.60,29.80,10.60
+Mathematics,2019,Income,Low Income,50.60,32.30,14.90,2.20
+Mathematics,2018,Income,Low Income,50.20,32.80,14.80,2.20
+Mathematics,2017,Income,Low Income,47.00,34.60,16.50,1.90
+Mathematics,2019,Income,Non Low Income,21.00,31.00,33.70,14.20
+Mathematics,2018,Income,Non Low Income,20.70,31.40,33.30,14.50
+Mathematics,2017,Income,Non Low Income,19.30,31.20,37.30,12.20
+Mathematics,2019,Gender,Male,34.80,29.80,24.90,10.50
+Mathematics,2018,Gender,Male,34.10,30.30,25.00,10.50
+Mathematics,2017,Gender,Male,30.60,31.00,28.90,9.50
+Mathematics,2019,Gender,Female,32.40,33.40,26.60,7.70
+Mathematics,2018,Gender,Female,33.10,33.70,25.40,7.70
+Mathematics,2017,Gender,Female,31.30,34.30,28.20,6.20
+Mathematics,2019,IEP Status,With IEPs,78.30,15.30,5.10,1.20
+Mathematics,2018,IEP Status,With IEPs,78.20,16.10,4.50,1.20
+Mathematics,2017,IEP Status,With IEPs,76.00,17.10,5.80,1.10
+Mathematics,2019,IEP Status,Non IEP,27.70,33.70,28.50,10.10
+Mathematics,2018,IEP Status,Non IEP,28.00,34.00,27.90,10.10
+Mathematics,2017,IEP Status,Non IEP,25.50,34.50,31.30,8.70
+ELA,2019,Demographics,White,18.10,34.10,33.20,14.60
+ELA,2018,Demographics,White,15.60,35.80,31.00,17.60
+ELA,2017,Demographics,White,14.70,34.20,33.20,17.80
+ELA,2019,Demographics,Black,49.60,36.50,11.80,2.10
+ELA,2018,Demographics,Black,45.40,40.80,11.50,2.30
+ELA,2017,Demographics,Black,41.40,41.80,13.80,3.00
+ELA,2019,Demographics,Hispanic,36.70,40.90,18.80,3.70
+ELA,2018,Demographics,Hispanic,33.70,44.00,17.90,4.40
+ELA,2017,Demographics,Hispanic,31.50,44.40,19.40,4.70
+ELA,2019,Demographics,Asian,11.70,25.50,34.10,28.60
+ELA,2018,Demographics,Asian,10.60,27.00,30.90,31.60
+ELA,2017,Demographics,Asian,10.20,24.50,33.50,31.80
+ELA,2019,Demographics,Am. Indian,30.60,46.60,19.10,3.70
+ELA,2018,Demographics,Am. Indian,29.60,37.90,20.80,11.70
+ELA,2017,Demographics,Am. Indian,28.20,41.70,20.40,9.70
+ELA,2019,Demographics,Pacific Islander,24.70,38.70,30.70,6.00
+ELA,2018,Demographics,Pacific Islander,26.50,38.10,21.30,14.20
+ELA,2017,Demographics,Pacific Islander,16.20,39.70,26.50,17.60
+ELA,2019,Demographics,Two or More,23.80,34.30,27.20,14.80
+ELA,2018,Demographics,Two or More,20.80,36.10,25.70,17.30
+ELA,2017,Demographics,Two or More,18.80,35.90,27.90,17.50
+ELA,2019,Income,Low Income,42.80,38.60,15.70,2.90
+ELA,2018,Income,Low Income,38.80,42.40,15.30,3.40
+ELA,2017,Income,Low Income,36.10,42.90,17.10,3.90
+ELA,2019,Income,Non Low Income,16.30,33.70,33.70,16.30
+ELA,2018,Income,Non Low Income,14.00,35.00,31.40,19.60
+ELA,2017,Income,Non Low Income,13.20,33.40,33.80,19.70
+ELA,2019,Gender,Male,31.90,34.40,24.00,9.70
+ELA,2018,Gender,Male,28.50,36.30,22.80,12.40
+ELA,2017,Gender,Male,26.10,36.40,25.00,12.50
+ELA,2019,Gender,Female,23.20,37.20,28.10,11.40
+ELA,2018,Gender,Female,21.20,40.20,25.90,12.70
+ELA,2017,Gender,Female,19.50,38.40,28.50,13.60
+ELA,2019,IEP Status,With IEPs,72.20,20.30,5.70,1.70
+ELA,2018,IEP Status,With IEPs,66.90,25.50,5.50,2.10
+ELA,2017,IEP Status,With IEPs,66.10,25.60,6.30,2.10
+ELA,2019,IEP Status,Non IEP,21.70,37.80,28.70,11.70
+ELA,2018,IEP Status,Non IEP,19.50,39.90,26.80,13.80
+ELA,2017,IEP Status,Non IEP,17.50,38.80,29.20,14.40
