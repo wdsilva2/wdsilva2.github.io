@@ -14,7 +14,7 @@ html {
   position: relative;
   min-height: 100%;
 }
-body {"/home/asiri/uiuc/416/d3viz/3.html"
+body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
@@ -30,11 +30,14 @@ body {"/home/asiri/uiuc/416/d3viz/3.html"
 }
 
 
+
+
 </style>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <title>Understanding the Variability of SAT Scores of Illinois Public High School Students</title>
  </head>   
-  <body>
+ 
+ <body>
        <!-- Fixed navbar -->
       <nav class="navbar navbar-dark bg-dark">
 
@@ -47,25 +50,28 @@ body {"/home/asiri/uiuc/416/d3viz/3.html"
 <nav aria-label="...">
   <ul class="pagination">
     <li class="page-item">
-      <a class="page-link" href="index.html"> << Previous Slide</a>
+      <a class="page-link" href="2.html"> << Previous Slide</a>
     </li>
     <li class="page-item"><a class="page-link" href="index.html">Slide 1</a></li>
-    <li class="page-item active">
-      <a class="page-link" href="#">Slide 2</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="3.html">Slide 3</a></li>
-    <li class="page-item"><a class="page-link" href="4.html">Slide 4</a></li>
     <li class="page-item">
-      <a class="page-link" href="3.html">Next Slide >> </a>
+      <a class="page-link" href="2.html">Slide 2</a>
+    </li>
+    <li class="page-item active"><a class="page-link" href="#">Slide 3</span></a></li>
+    
+    <li class="page-item">
+      <a class="page-link" href="4.html">Slide 4</a>
+    </li>
+    
+    <li class="page-item">
+      <a class="page-link" href="4.html">Next Slide >> </a>
     </li>
   </ul>
 </nav>
 
 <div style="padding: 15px 15px 15px 15px;">
-<p>
-Performance of students significantly differ by their demographics -- especially their Race. An <b style="font-size:24px">Asian student</b> has over <b style="font-size:24px">4x likehood</b> of achieving  a proficient SAT score than an African American student.
-</p>
-<p> Similarly, White students have a higher likelihood of achieving a better SAT score as well </p>
+
+As expected, income is a big factor that affects student performance. Most probably driven by access to resources, good quality textbooks, and especially parental influence, Non Low Income students have 
+<b style="font-size:24px">~3x</b> higher proficiency than Low Income students
 
 </div>
 
@@ -82,7 +88,7 @@ Performance of students significantly differ by their demographics -- especially
  
   
 
-  <div style="text-align:left; padding: 15px 15px 15px 15px; color:grey; font-size: 13px;">
+<div style="text-align:left; padding: 15px 15px 15px 15px; color:grey; font-size: 13px;">
         
 Sources:
 <ul>
@@ -90,7 +96,7 @@ Sources:
 </ul>
         
       </div>
-      
+        
 
 <script>
 
@@ -136,7 +142,7 @@ var mousemove = function(d,i) {
     //.html(Number.parseFloat((d[1] - d[0])).toFixed(1) + "%" + i)
      .html(subgroupName + " : " + Number.parseFloat(subgroupValue).toFixed(1) + "%")
 
-    .style("left", (d3.event.pageX - 34) + "px")
+        .style("left", (d3.event.pageX - 34) + "px")
      .style("top", (d3.event.pageY - 45) + "px");
    console.log(d)
    console.log(i)
@@ -150,7 +156,7 @@ var mouseleave = function(d,i) {
 }
 
 // Parse the Data
-d3.csv("https://raw.githubusercontent.com/wdsilva2/wdsilva2.github.io/main/ela_sat_2019.csv", function(data) {
+d3.csv("https://raw.githubusercontent.com/wdsilva2/wdsilva2.github.io/main/ela_sat_by_income.csv", function(data) {
 
   var subgroups = data.columns.slice(1)
   var groups = d3.map(data, function(d){return(d.SubgroupName)}).keys()
@@ -176,7 +182,6 @@ d3.csv("https://raw.githubusercontent.com/wdsilva2/wdsilva2.github.io/main/ela_s
     .domain(subgroups)
     .range(["#d7191c","#fdae61","#abd9e9", "#2c7bb6"])
 
-    
   var stackedData = d3.stack().keys(subgroups)(data)
 
   
@@ -207,15 +212,25 @@ svg_ela.append("text")
  .attr('font-weight','bold')        
      .style("font-size", "16px") 
      .style("text-decoration", "underline")  
-     .text("SAT ELA Performance by Demographics");    
+     .text("SAT ELA Performance by Income Level");    
 
 
 //annotations
 svg_ela.append('rect')
-.attr('x', 30)
+.attr('x', 110)
 .attr('y', -5)
-.attr('width', 57)
-.attr('height', 500)
+.attr('width', 135)
+.attr('height', 430)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+svg_ela.append('rect')
+.attr('x', 350)
+.attr('y', -5)
+.attr('width', 135)
+.attr('height', 430)
 .attr('stroke', 'none')
 //.attr('stroke-dasharray', '5,5')
 .attr('fill', '#69a3b2')
@@ -223,26 +238,6 @@ svg_ela.append('rect')
 
 svg_ela.append('rect')
 .attr('x', 110)
-.attr('y', -5)
-.attr('width', 57)
-.attr('height', 430)
-.attr('stroke', 'none')
-//.attr('stroke-dasharray', '5,5')
-.attr('fill', '#69a3b2')
-.style('opacity', 0.2);
-
-svg_ela.append('rect')
-.attr('x', 270)
-.attr('y', -5)
-.attr('width', 57)
-.attr('height', 430)
-.attr('stroke', 'none')
-//.attr('stroke-dasharray', '5,5')
-.attr('fill', '#69a3b2')
-.style('opacity', 0.2);
-
-svg_ela.append('rect')
-.attr('x', 87)
 .attr('y', 425)
 .attr('width', 470)
 .attr('height', 70)
@@ -253,15 +248,15 @@ svg_ela.append('rect')
 
 
 svg_ela.append("text")
-.attr("x", 35)             
+.attr("x", 135)             
 .attr("y", 480)
 .style("font-size", "14px")
 .style("fill", "#234e8d")
 .style("font-weight", "bold")
-.text("Significant differences in ELA proficiency by demographics");
+.text("Significant differences in ELA proficiency by Income Level");
 
 svg_ela.append("text")
-.attr("x", 100)             
+.attr("x", 250)             
 .attr("y", 450)
 .style("font-size", "15px")
 .style("font-weight", "bold")
@@ -269,69 +264,52 @@ svg_ela.append("text")
 .text("% Proficient");
 
 
-
 svg_ela.append("text")
-.attr("x", 35)             
+.attr("x", 160)             
 .attr("y", 400)
 .style("font-size", "15px")
 .style("font-weight", "bold")
 .style("fill", "#234e8d")
-.text("47.8%");
+.text("17.1%");
 
 svg_ela.append("text")
-.attr("x", 115)             
+.attr("x", 400)             
 .attr("y", 400)
 .style("font-size", "15px")
 .style("font-weight", "bold")
 .style("fill", "#234e8d")
-.text("13.9%");
-
-svg_ela.append("text")
-.attr("x", 275)             
-.attr("y", 400)
-.style("font-size", "15px")
-.style("font-weight", "bold")
-.style("fill", "#234e8d")
-.text("62.7%");
+.text("47.9%");
 
 svg_ela.append('line')
 .style("stroke", "black")
 .style("stroke-width", 2)
-.attr("x1", 135)
+.attr("x1", 175)
 .attr("y1", 405)
-.attr("x2", 135)
-.attr("y2", 435); 
-
-svg_ela.append('line')
-.style("stroke", "black")
-.style("stroke-width", 2)
-.attr("x1", 55)
-.attr("y1", 405)
-.attr("x2", 55)
+.attr("x2", 175)
 .attr("y2", 445);
 
 svg_ela.append('line')
 .style("stroke", "black")
 .style("stroke-width", 2)
-.attr("x1", 54)
+.attr("x1", 174)
 .attr("y1", 445)
-.attr("x2", 95)
+.attr("x2", 235)
 .attr("y2", 445);
 
 svg_ela.append('line')
 .style("stroke", "black")
 .style("stroke-width", 2)
-.attr("x1", 295)
+.attr("x1", 410)
 .attr("y1", 405)
-.attr("x2", 295)
+.attr("x2", 410)
 .attr("y2", 445);
 
 svg_ela.append('line')
 .style("stroke", "black")
 .style("stroke-width", 2)
-.attr("x1", 296)
+.attr("x1", 411)
 .attr("y1", 445)
-.attr("x2", 190)
+.attr("x2", 345)
 .attr("y2", 445);
 
 
@@ -341,7 +319,6 @@ svg_ela.append('line')
 
 //////////////////////////// Chart2 ////////////////////////////////////////////////////
 
-// append the svg object to the body of the page
 var svg_math = d3.select("#sat_math_race")
   .append("svg")
     .attr("width", width + margins.left + margins.right)
@@ -389,7 +366,7 @@ var mouseleave_math = function(d,i) {
 }
 
 // Parse the Data
-d3.csv("https://raw.githubusercontent.com/wdsilva2/wdsilva2.github.io/main/math_sat_2019.csv", function(data) {
+d3.csv("https://raw.githubusercontent.com/wdsilva2/wdsilva2.github.io/main/math_sat_by_income.csv", function(data) {
 
   var subgroups = data.columns.slice(1)
   var groups = d3.map(data, function(d){return(d.SubgroupName)}).keys()
@@ -404,7 +381,6 @@ d3.csv("https://raw.githubusercontent.com/wdsilva2/wdsilva2.github.io/main/math_
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x).tickSizeOuter(0));
 
-  // Add Y axis
   var y = d3.scaleLinear()
     .domain([0, 100])
     .range([ height, 0 ]);
@@ -443,17 +419,26 @@ svg_math.append("text")
  .attr('font-weight','bold')        
      .style("font-size", "16px") 
      .style("text-decoration", "underline")  
-     .text("SAT Math Performance by Demographics");    
+     .text("SAT Math Performance by Income Level");    
 
 
 
 
-//annotations
 svg_math.append('rect')
-.attr('x', 30)
+.attr('x', 110)
 .attr('y', -5)
-.attr('width', 57)
-.attr('height', 500)
+.attr('width', 135)
+.attr('height', 430)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);
+
+svg_math.append('rect')
+.attr('x', 350)
+.attr('y', -5)
+.attr('width', 135)
+.attr('height', 430)
 .attr('stroke', 'none')
 //.attr('stroke-dasharray', '5,5')
 .attr('fill', '#69a3b2')
@@ -461,26 +446,6 @@ svg_math.append('rect')
 
 svg_math.append('rect')
 .attr('x', 110)
-.attr('y', -5)
-.attr('width', 57)
-.attr('height', 430)
-.attr('stroke', 'none')
-//.attr('stroke-dasharray', '5,5')
-.attr('fill', '#69a3b2')
-.style('opacity', 0.2);
-
-svg_math.append('rect')
-.attr('x', 270)
-.attr('y', -5)
-.attr('width', 57)
-.attr('height', 430)
-.attr('stroke', 'none')
-//.attr('stroke-dasharray', '5,5')
-.attr('fill', '#69a3b2')
-.style('opacity', 0.2);
-
-svg_math.append('rect')
-.attr('x', 87)
 .attr('y', 425)
 .attr('width', 470)
 .attr('height', 70)
@@ -490,17 +455,16 @@ svg_math.append('rect')
 .style('opacity', 0.2);
 
 
-
 svg_math.append("text")
-.attr("x", 35)             
+.attr("x", 135)             
 .attr("y", 480)
 .style("font-size", "14px")
 .style("fill", "#234e8d")
 .style("font-weight", "bold")
-.text("Significant differences in math proficiency by demographics");
+.text("Significant differences in Math proficiency by Income Level");
 
 svg_math.append("text")
-.attr("x", 100)             
+.attr("x", 250)             
 .attr("y", 450)
 .style("font-size", "15px")
 .style("font-weight", "bold")
@@ -508,69 +472,52 @@ svg_math.append("text")
 .text("% Proficient");
 
 
-
 svg_math.append("text")
-.attr("x", 35)             
+.attr("x", 160)             
 .attr("y", 400)
 .style("font-size", "15px")
 .style("font-weight", "bold")
 .style("fill", "#234e8d")
-.text("45.0%");
+.text("18.6%");
 
 svg_math.append("text")
-.attr("x", 115)             
+.attr("x", 400)             
 .attr("y", 400)
 .style("font-size", "15px")
 .style("font-weight", "bold")
 .style("fill", "#234e8d")
-.text("11.6%");
-
-svg_math.append("text")
-.attr("x", 275)             
-.attr("y", 400)
-.style("font-size", "15px")
-.style("font-weight", "bold")
-.style("fill", "#234e8d")
-.text("69.0%");
+.text("50.0%");
 
 svg_math.append('line')
 .style("stroke", "black")
 .style("stroke-width", 2)
-.attr("x1", 135)
+.attr("x1", 175)
 .attr("y1", 405)
-.attr("x2", 135)
-.attr("y2", 435); 
-
-svg_math.append('line')
-.style("stroke", "black")
-.style("stroke-width", 2)
-.attr("x1", 55)
-.attr("y1", 405)
-.attr("x2", 55)
+.attr("x2", 175)
 .attr("y2", 445);
 
 svg_math.append('line')
 .style("stroke", "black")
 .style("stroke-width", 2)
-.attr("x1", 54)
+.attr("x1", 174)
 .attr("y1", 445)
-.attr("x2", 95)
+.attr("x2", 235)
 .attr("y2", 445);
 
 svg_math.append('line')
 .style("stroke", "black")
 .style("stroke-width", 2)
-.attr("x1", 295)
+.attr("x1", 410)
 .attr("y1", 405)
-.attr("x2", 295)
+.attr("x2", 410)
 .attr("y2", 445);
 
 svg_math.append('line')
 .style("stroke", "black")
 .style("stroke-width", 2)
-.attr("x1", 296)
+.attr("x1", 411)
 .attr("y1", 445)
-.attr("x2", 190)
+.attr("x2", 345)
 .attr("y2", 445);
 
 
@@ -652,7 +599,9 @@ SVG_ela_legend.append('line')
 .attr("y1", 108)
 .attr("x2", 140)
 .attr("y2", 138);
+
 </script>
+
 
 </body>
 </html>

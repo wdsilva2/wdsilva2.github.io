@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+
+<!-- Load d3.js & color scale -->
+<script src="https://d3js.org/d3.v4.js"></script> 
+
+
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/1.12.1/d3-annotation.min.js"></script>
+<head>
+<style>
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  align: left;
+  background-color: #f5f5f5;
+}
+
+
+
+
+</style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+ <script>
+ 
+ function update_chart(){
+	 
+	 //year
+	 var year_var = 2019
+	 if(document.getElementById("btnradio_2017").checked == true){
+		 year_var = 2017
+	 }else if(document.getElementById("btnradio_2018").checked == true){
+		 year_var = 2018
+	 }else if (document.getElementById("btnradio_2019").checked == true){
+		 year_var = 2019
+	 }
+	 
+	 
+	 var segment_var = ""
+	 if(document.getElementById("btnradio_demos").checked == true){
+		 segment_var = "Demographics"
+	 }else if(document.getElementById("btnradio_income").checked == true){
+		 segment_var = "Income"
+	 }else if(document.getElementById("btnradio_iep").checked == true){
+		 segment_var = "IEP Status"
+	 }else if(document.getElementById("btnradio_gender").checked == true){
+		 segment_var = "Gender"
+	 }
+
+	 
+	 
+	 var subject_var = ""
+	 if(document.getElementById("btnradio_math").checked == true){
+		 subject_var = "Mathematics"
+	 }else if(document.getElementById("btnradio_ela").checked == true){
+		 subject_var = "ELA"
+	 }
+
+	 
+	 
+	 
+	 
+		// Parse the Data
+		d3.csv("https://raw.githubusercontent.com/wdsilva2/wdsilva2.github.io/main/alldata.csv", function(consdata) {
+			
+		 data1 = consdata.filter(function(row) {
+		        return (row['Group'] == segment_var) && (row['Year'] == year_var) && (row['Subject'] == subject_var);
+		    })
+		    
+		 data = data1.map(function(d) {
+			  return {
+				    'SubgroupName': d['SubgroupName'],
+				    '% Partially Meets': d['% Partially Meets'],
+				    '% Approaching': d['% Approaching'],
+				    '% Meets': d['% Meets'],
+				    '% Exceeds': d['% Exceeds'],
+				  }
+				});
+		 
+		 console.log(data)
+		 data.columns = ['SubgroupName','% Partially Meets','% Approaching','% Meets','% Exceeds']
+		 
+		 var s = d3.select("#sat_ela_race").selectAll("svg")
+		 s = s.remove()
+
+		 var svg_ela = d3.select("#sat_ela_race")
+	     .append("svg")
+	      .attr("width", width + margins.left + margins.right)
+	      .attr("height", height + margins.top + margins.bottom)
+	     .append("g")
+	     .attr("transform",
+	          "translate(" + margins.left + "," + margins.top + ")");   
+		    
+
+			    
+				    
+		  var subgroups = data.columns.slice(1)
+		  var groups = d3.map(data, function(d){return(d.SubgroupName)}).keys()
+		  console.log(subgroups)
+
+		  var x = d3.scaleBand()
+		      .domain(groups)
+		      .range([0, width])
+		      .padding([0.5]) //the gap between the bars
+		  
+		  svg_ela.append("g")
+		    .attr("transform", "translate(0," + height + ")")
+		    .call(d3.axisBottom(x).tickSizeOuter(0));
+
+		  // Add Y axis
+		  var y = d3.scaleLinear()
+		    .domain([0, 100])
+		    .range([ height, 0 ]);
+		  svg_ela.append("g")
+		    .call(d3.axisLeft(y).tickFormat(d => d + "%"));
+
+		  var color = d3.scaleOrdinal()
+		    .domain(subgroups)
+		    .range(["#d7191c","#fdae61","#abd9e9", "#2c7bb6"])
+
+		  var stackedData = d3.stack().keys(subgroups)(data)
+
+		  
+		  svg_ela.append("g")
+		    .selectAll("g")
+		      .data(stackedData)
+		    .enter().append("g")
+		      .attr("fill", function(d) { return color(d.key); })
+		      .selectAll("rect")
+		        .data(function(d) { return d; })
+		      .enter().append("rect")
+		        .attr("x", function(d) { return x(d.data.SubgroupName); })
+		        .attr("y", function(d) { return y(d[1]); })
+		        .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+		        .attr("width",x.bandwidth())
+		        .on("mouseover", mouseover)
+		         .on("mousemove", mousemove)
+		         .on("mouseleave", mouseleave)
+		     
+		         
+		         
+	      //titles
+	        svg_ela.append("text")
+	             .attr("x", 300)             
+	             .attr("y", -20)
+	             .attr("text-anchor", "middle")
+	         .attr('font-weight','bold')        
+	             .style("font-size", "16px") 
+	             .style("text-decoration", "underline")  
+	             .text("SAT "+subject_var+" Performance by "+segment_var + ", " + year_var);  
+		         
+		   
+			
+				  
+		  
+		  
+		       
+
+		})
+	 
+ 
+ }
+ 
+ 
+ 
+ </script>  
+   <title>Understanding the Variability of SAT Scores of Illinois Public High School Students</title>
+ 
+ </head>   
+ <body onload ="return update_chart()")>
+
+      <!-- Fixed navbar -->
+      <nav class="navbar navbar-dark bg-dark">
+
+        <a class="navbar-brand" href="#">&nbsp;&nbsp; Understanding the Variability of SAT Scores of Illinois Public High School Students</a>
+        
+        
+        </div>
+      </nav>
+<br>
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="3.html"> << Previous Slide</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="index.html">Slide 1</a></li>
+    <li class="page-item">
+      <a class="page-link" href="2.html">Slide 2</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="3.html">Slide 3</a></li>
+    <li class="page-item active"><a class="page-link" href="#">Slide 4</a></li>
+    
+    <li class="page-item disabled">
+      <a class="page-link" href="#"> Next Slide >></a>
+    </li>
+  </ul>
+</nav>
+
+<div style="padding: 15px 15px 15px 15px;">
+
+Now it is the time for you to explore the data! Explore the data by various years, by SAT subject and segmented by various factors. 
+
+</div>
+
+<table border="1">
+<tr>
+<td style="padding: 10px;">
+<div class="container">
+Subject : 
+<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+  <input type="radio" class="btn-check" name="btnradio" id="btnradio_math" autocomplete="off" onchange="return update_chart()" checked>
+  <label class="btn btn-outline-primary" for="btnradio_math">Maths</label>
+
+  <input type="radio" class="btn-check" name="btnradio" id="btnradio_ela" autocomplete="off" onchange="return update_chart()">
+  <label class="btn btn-outline-primary" for="btnradio_ela">ELA</label>
+</div>
+</div>
+
+
+</td>
+<td style="padding: 10px;">
+<div class="container">
+Year : 
+<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+  <input type="radio" class="btn-check" name="btnradio1" id="btnradio_2017" autocomplete="off" onchange="return update_chart()">
+  <label class="btn btn-outline-primary" for="btnradio_2017">2017</label>
+
+  
+<input type="radio" class="btn-check" name="btnradio1" id="btnradio_2018" autocomplete="off" onchange="return update_chart()">
+  <label class="btn btn-outline-primary" for="btnradio_2018">2018</label>
+
+<input type="radio" class="btn-check" name="btnradio1" id="btnradio_2019" autocomplete="off" onchange="return update_chart()" checked>
+  <label class="btn btn-outline-primary" for="btnradio_2019">2019</label>
+</div>
+</div>
+
+</td>
+
+</tr>
+<tr colspan="2">
+<td style="padding: 10px;">
+<div class="container">
+Segmented By : 
+<div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+  <input type="radio" class="btn-check" name="btnradio2" id="btnradio_demos" autocomplete="off" onchange="return update_chart()" checked>
+  <label class="btn btn-outline-primary" for="btnradio_demos">Demographics</label>
+
+  
+<input type="radio" class="btn-check" name="btnradio2" id="btnradio_income" autocomplete="off" onchange="return update_chart()">
+  <label class="btn btn-outline-primary" for="btnradio_income">Income</label>
+
+<input type="radio" class="btn-check" name="btnradio2" id="btnradio_gender" autocomplete="off" onchange="return update_chart()">
+  <label class="btn btn-outline-primary" for="btnradio_gender">Gender</label>
+  
+<input type="radio" class="btn-check" name="btnradio2" id="btnradio_iep" autocomplete="off" onchange="return update_chart()">
+  <label class="btn btn-outline-primary" for="btnradio_iep">IEP Status</label>
+  
+</div>
+</div>
+</td>
+<tr>
+
+
+</table>
+ 
+ 
+
+ 
+<br> 
+ 
+ <table>
+ <tr>
+ <td><div id="sat_ela_race" style='border:1px;  border-color:black; height: 500px;'></td>
+ <td style="text-align:left; align:left;" align="center"><svg id="sat_ela_legend" height=300 width = 230></svg></td>
+  </tr>
+  </table>
+ <div id="sat_tooltip_ela" style='border:1px;  border-color:black;'>
+       
+<div style="text-align:left; padding: 15px 15px 15px 15px; color:grey; font-size: 13px;">
+        
+Sources:
+<ul>
+<li>Illinois State Board of Education, Report Card Data Library <a href='https://www.isbe.net/pages/illinois-state-report-card-data.aspx'>link</a></li>
+</ul>
+        
+      </div>
+        
+
+
+<script>
+
+
+var margins = {top: 50, right: 50, bottom: 150, left: 50},
+    width = 700 - margins.left - margins.right,
+    height = 550 - margins.top - margins.bottom;
+
+
+//////////////////////////// Chart1 ////////////////////////////////////////////////////
+
+var Tooltip_ela = d3.select("#sat_tooltip_ela")
+.append("div")
+.style("opacity", 0)
+.attr("class", "tooltip")
+.style("background-color", "white")
+.style("padding", "5px")
+
+
+var mouseover = function(d) {
+	Tooltip_ela
+    .style("opacity", 1)
+  d3.select(this)
+    .style("stroke", "black")
+    .style("opacity", 1)
+}
+var mousemove = function(d,i) {
+	var subgroupName = d3.select(this.parentNode).datum().key;
+    var subgroupValue = d.data[subgroupName];
+    
+    
+    Tooltip_ela
+    //.html(Number.parseFloat((d[1] - d[0])).toFixed(1) + "%" + i)
+     .html(subgroupName + " : " + Number.parseFloat(subgroupValue).toFixed(1) + "%")
+
+    .style("left", (d3.event.pageX - 34) + "px")
+     .style("top", (d3.event.pageY - 45) + "px");
+   console.log(d)
+   console.log(i)
+}
+var mouseleave = function(d,i) {
+	Tooltip_ela
+    .style("opacity", 0)
+  d3.select(this)
+    .style("stroke", "none")
+    .style("opacity", 0.8)
+}
+
+
+
+//////////////////////////////////////legend ////////////////////////////////////////////////
+
+
+var SVG_ela_legend = d3.select("#sat_ela_legend")
+
+SVG_ela_legend.append('rect')
+.attr('x', 5)
+.attr('y', 90)
+.attr('width', 225)
+.attr('height', 65)
+.attr('stroke', 'none')
+//.attr('stroke-dasharray', '5,5')
+.attr('fill', '#69a3b2')
+.style('opacity', 0.2);    
+
+var keys = ['% Exceeds','% Meets','% Approaching','% Partially Meets']
+
+var color = d3.scaleOrdinal()
+  .domain(keys)
+      .range(["#2c7bb6", "#abd9e9",     "#fdae61",  "#d7191c"]);
+
+var size = 20
+SVG_ela_legend.selectAll("mydots")
+  .data(keys)
+  .enter()
+  .append("rect")
+    .attr("x", 10)
+    .attr("y", function(d,i){ return 100 + i*(size+10)})
+    .attr("width", size)
+    .attr("height", size)
+    .style("fill", function(d){ return color(d)})
+
+SVG_ela_legend.selectAll("mylabels")
+  .data(keys)
+  .enter()
+  .append("text")
+    .attr("x", 10 + size*1.2)
+    .attr("y", function(d,i){ return 100 + i*(size+10) + (size/2)}) 
+    .style("fill", function(d){ return '#000000'})
+    .text(function(d){ return d})
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle")
+    .style("font-weight", "bold")
+    
+SVG_ela_legend.append("text")
+.attr("x", 150)             
+.attr("y", 125)
+.style("font-size", "15px")
+.style("font-weight", "bold")
+.style("fill", "#234e8d")
+.text("Proficient");
+
+SVG_ela_legend.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 120)
+.attr("y1", 108)
+.attr("x2", 140)
+.attr("y2", 108);
+
+SVG_ela_legend.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 120)
+.attr("y1", 138)
+.attr("x2", 140)
+.attr("y2", 138);
+
+
+SVG_ela_legend.append('line')
+.style("stroke", "black")
+.style("stroke-width", 2)
+.attr("x1", 140)
+.attr("y1", 108)
+.attr("x2", 140)
+.attr("y2", 138);
+
+
+</script>
+
+</body>
+</html>
